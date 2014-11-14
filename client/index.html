@@ -3,6 +3,7 @@
   <body>
     <!-- Scripts may be placed anywhere on a page. But FYI, they block rendering of elements
      below them until after the scripts load-->
+    <script src="http://connect.soundcloud.com/sdk.js"></script>
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/backbone/backbone.js"></script>
@@ -20,12 +21,28 @@
     <script src="views/AppView.js"></script>
     <script src="views/SongQueueView.js"></script>
     <script src="views/SongQueueEntryView.js"></script>
+    <script src="views/SongTitleView.js"></script>
+    <script>
+    // initialize client with app credentials
+        SC.initialize({
+          client_id: 'YOUR_CLIENT_ID',
+          redirect_uri: 'REDIRECT_URL'
+        });
 
+        // initiate auth popup
+        SC.connect(function() {
+          SC.get('/me', function(me) {
+            alert('Hello, ' + me.username);
+          });
+        });
+    </script>
     <script>
       $(function(){
         // set up model objects
-        var library = new Songs(songData);
-        var app = new AppModel({library: library});
+        //
+        var recentStorage = JSON.parse(window.localStorage.getItem('myTunes'));
+        var library = new Songs(recentStorage.library) || new Songs(songData);
+        var app = new AppModel({library: library, songQueue: recentStorage.songQueue});
 
         // build a view for the top level of the whole app
         var appView = new AppView({model: app});

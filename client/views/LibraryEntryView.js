@@ -13,9 +13,16 @@ var LibraryEntryView = Backbone.View.extend({
       this.model.enqueue();
     }
   },
+  // delegateEvents: function() {
+  //   this.on({'click .Queue' : function() {
+  //     console.log('clicked');
+  //     this.model.enqueue();
+  //   }});
+  // },
 
   render: function(){
     return this.$el.html(this.template(this.model.attributes));
+    // this.delegateEvents();
   }
 
 });

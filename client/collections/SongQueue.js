@@ -16,6 +16,10 @@ var SongQueue = Songs.extend({
   dequeue: function() {
     var temp = this.at(0);
     this.remove(temp);
+    console.log('removed');
     return temp;
+  },
+  checkIfSongInQueue: function(song) {
+    return this.where({title: song.get('title')}).length === 0;
   }
 });
